@@ -1,15 +1,12 @@
+require 'account_config'
 # Account interface for client
 class Account
-  MIN_BALANCE = 0
-  MIN_DENOMINATION = 0.01
-  MIN_DEPOSIT = 0.01
-  MIN_WITHDRAWAL = 0.01
-
-  def initialize
+  def initialize(config = AccountConfig.new)
     @balance = 0
+    @config = config
   end
 
-  attr_reader :balance
+  attr_reader :balance, :config
 
   def deposit(amount)
     check_valid(amount, 'deposit')
@@ -24,16 +21,28 @@ class Account
   private
 
   def max_withdrawal
-    @balance - MIN_BALANCE
+    @balance - min_balance
+  end
+
+  def min_balance
+    @config.min_balance
+  end
+
+  def min_deposit
+    @config.min_deposit
+  end
+
+  def min_withdrawal
+    @config.min_withdrawal
   end
 
   def check_valid(amount, method)
     case method
     when 'deposit'
-      raise "Minimum deposit is #{MIN_DEPOSIT}" if amount < MIN_DEPOSIT
+      raise "Minimum deposit is #{min_deposit}" if amount < min_deposit
     when 'withdraw'
       raise "Maximum withdrawal is #{max_withdrawal}" if amount > max_withdrawal
-      raise "Minimum withdrawal is #{MIN_WITHDRAWAL}" if amount < MIN_WITHDRAWAL
+      raise "Minimum withdrawal is #{min_withdrawal}" if amount < min_withdrawal
     end
   end
 end

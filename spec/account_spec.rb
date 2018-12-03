@@ -2,9 +2,9 @@ require 'account'
 
 describe 'Account' do
   subject(:account) { Account.new }
-  let(:min_denomination) { Account::MIN_DENOMINATION }
-  let(:min_deposit) { Account::MIN_DEPOSIT }
-  let(:min_withdrawal) { Account::MIN_WITHDRAWAL }
+  let(:min_denomination) { account.config.min_denomination }
+  let(:min_deposit) { account.config.min_deposit }
+  let(:min_withdrawal) { account.config.min_withdrawal }
 
   describe '#initialize' do
     it 'should create an account with a balance of zero' do

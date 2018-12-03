@@ -9,5 +9,4 @@ class Ledger
   def record_transaction(amount, method)
     @transactions << [amount, method, Time.now]
   end
-  
 end
