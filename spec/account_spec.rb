@@ -6,7 +6,6 @@ describe 'Account' do
   let(:min_deposit) { Account::MIN_DEPOSIT }
   let(:min_withdrawal) { Account::MIN_WITHDRAWAL }
 
-
   describe '#initialize' do
     it 'should create an account with a balance of zero' do
       expect(account.balance).to equal 0
@@ -45,8 +44,8 @@ describe 'Account' do
     end
     it 'raises an error if the withdrawal is under a minimum amount' do
       invalid_withdrawal = min_withdrawal - min_denomination
-      expect { account.deposit(invalid_withdrawal) }
-        .to raise_error("Minimum deposit is #{min_deposit}")
+      expect { account.withdraw(invalid_withdrawal) }
+        .to raise_error("Minimum withdrawal is #{min_withdrawal}")
     end
     it 'raises an error if withdrawal exceeds available funds' do
       max = account.balance
