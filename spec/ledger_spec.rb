@@ -9,10 +9,10 @@ describe 'Ledger' do
     end
   end
 
-  describe '#record_transaction' do
+  describe '#update' do
     before { Timecop.freeze(Time.now) }
     it 'records a transaction type, amount and date' do
-      ledger.record_transaction(100, 'credit')
+      ledger.update(100, 'credit')
       expect(ledger.transactions.last).to include(100, 'credit', Time.now)
     end
   end

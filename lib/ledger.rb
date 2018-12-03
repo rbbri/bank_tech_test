@@ -6,7 +6,7 @@ class Ledger
     @transactions = []
   end
 
-  def record_transaction(amount, method)
+  def update(amount, method)
     @transactions << [amount, method, Time.now]
   end
 end
