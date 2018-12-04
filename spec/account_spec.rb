@@ -56,9 +56,9 @@ describe Account do
     end
   end
 
-  describe '#print_statement' do
+  describe '#statement' do
     it 'calls print on the account ledger' do
-      account.print_statement
+      account.statement
       expect(ledger).to have_received(:print_transactions)
     end
   end

@@ -28,8 +28,8 @@ class Account
     notify_observers(debit: amount, balance: balance)
   end
 
-  def print_statement
-    @ledger.print_transactions
+  def statement
+    puts @ledger.print_transactions
   end
 
   private
