@@ -9,7 +9,7 @@ class Account
     @balance = 0
     @config = config
     @ledger = ledger
-    add_observer @ledger
+    add_observer ledger
   end
 
   attr_reader :balance, :config
