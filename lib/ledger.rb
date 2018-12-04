@@ -7,20 +7,28 @@ class Ledger
   end
 
   def update(transaction)
-    @transactions << format(transaction)
+    @transactions << format_statement(transaction)
   end
 
   def print_transactions
-    header + "\n" + @transactions.join("\n")
+    header + "\n" + @transactions.reverse.join("\n")
   end
 
   private
 
-  def format(transaction)
-    "#{Time.now} || " \
-      "#{transaction[:credit]} || " \
-      "#{transaction[:debit]} || " \
-      "#{transaction[:balance]}"
+  def format_statement(transaction)
+    "#{format_date(Time.now)} || " \
+      "#{format_amount(transaction[:credit])} || " \
+      "#{format_amount(transaction[:debit])} || " \
+      "#{format_amount(transaction[:balance])}"
+  end
+
+  def format_amount(amount)
+    format('%.2f', amount) unless amount.nil?
+  end
+
+  def format_date(date)
+    date.strftime('%m/%d/%Y')
   end
 
   def header

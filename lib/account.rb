@@ -18,18 +18,18 @@ class Account
     check_valid(amount, :credit)
     @balance += amount
     changed
-    notify_observers(credit: amount, balance: @balance)
+    notify_observers(credit: amount, balance: balance)
   end
 
   def withdraw(amount)
     check_valid(amount, :debit)
     @balance -= amount
     changed
-    notify_observers(debit: amount, balance: @balance)
+    notify_observers(debit: amount, balance: balance)
   end
 
   def print_statement
-    puts @ledger.print_transactions
+    @ledger.print_transactions
   end
 
   private
