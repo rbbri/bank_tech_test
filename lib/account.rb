@@ -1,28 +1,35 @@
-require 'account_config'
-require 'ledger'
+require_relative 'account_config'
+require_relative 'ledger'
 require 'observer'
 # Account interface for client
 class Account
   include Observable
 
-  def initialize(config = AccountConfig.new)
+  def initialize(config = AccountConfig.new, ledger = Ledger.new)
     @balance = 0
     @config = config
-    add_observer Ledger.new
+    @ledger = ledger
+    add_observer @ledger
   end
 
   attr_reader :balance, :config
 
   def deposit(amount)
-    check_valid(amount, 'deposit')
+    check_valid(amount, :credit)
     @balance += amount
-    notify_observers(self, amount, 'credit')
+    changed
+    notify_observers(credit: amount, balance: @balance)
   end
 
   def withdraw(amount)
-    check_valid(amount, 'withdraw')
+    check_valid(amount, :debit)
     @balance -= amount
-    notify_observers(self, amount, 'debit')
+    changed
+    notify_observers(debit: amount, balance: @balance)
+  end
+
+  def print_statement
+    puts @ledger.print_transactions
   end
 
   private
@@ -45,9 +52,9 @@ class Account
 
   def check_valid(amount, method)
     case method
-    when 'deposit'
+    when :credit
       raise "Minimum deposit is #{min_deposit}" if amount < min_deposit
-    when 'withdraw'
+    when :debit
       raise "Maximum withdrawal is #{max_withdrawal}" if amount > max_withdrawal
       raise "Minimum withdrawal is #{min_withdrawal}" if amount < min_withdrawal
     end

@@ -7,6 +7,7 @@ group :development do
 end
 
 group :test do
+  gem 'bogus'
   gem 'rspec'
   gem 'rubocop'
   gem 'simplecov'

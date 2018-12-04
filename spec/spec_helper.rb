@@ -1,3 +1,4 @@
+require 'bogus/rspec'
 require 'simplecov'
 require 'timecop'
 SimpleCov.start

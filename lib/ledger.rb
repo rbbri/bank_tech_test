@@ -6,7 +6,24 @@ class Ledger
     @transactions = []
   end
 
-  def update(amount, method)
-    @transactions << [amount, method, Time.now]
+  def update(transaction)
+    @transactions << format(transaction)
+  end
+
+  def print_transactions
+    header + "\n" + @transactions.join("\n")
+  end
+
+  private
+
+  def format(transaction)
+    "#{Time.now} || " \
+      "#{transaction[:credit]} || " \
+      "#{transaction[:debit]} || " \
+      "#{transaction[:balance]}"
+  end
+
+  def header
+    'Date || Credit || Debit || Balance ' \
   end
 end

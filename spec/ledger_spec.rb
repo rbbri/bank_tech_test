@@ -1,7 +1,8 @@
 require 'ledger'
 
-describe 'Ledger' do
-  let(:ledger) { Ledger.new }
+describe Ledger do
+  let(:ledger) { described_class.new }
+  before { Timecop.freeze(Time.now) }
 
   describe '#initialize' do
     it 'has an empty array of transactions' do
@@ -10,10 +11,19 @@ describe 'Ledger' do
   end
 
   describe '#update' do
-    before { Timecop.freeze(Time.now) }
-    it 'records a transaction type, amount and date' do
-      ledger.update(100, 'credit')
-      expect(ledger.transactions.last).to include(100, 'credit', Time.now)
+    it 'records a transaction type, amount and date as a string' do
+      ledger.update(credit: 100, balance: 150)
+      expect(ledger.transactions.last)
+        .to eq "#{Time.now} || 100 ||  || 150"
+    end
+  end
+
+  describe '#print_transactions' do
+    it 'returns a header and all transactions' do
+      ledger.update(credit: 100, balance: 150)
+      expect(ledger.print_transactions)
+        .to eq 'Date || Credit || Debit || Balance ' + "\n" \
+               "#{Time.now} || 100 ||  || 150"
     end
   end
 end

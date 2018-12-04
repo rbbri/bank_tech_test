@@ -1,10 +1,11 @@
 require 'account'
 
-describe 'Account' do
-  subject(:account) { Account.new }
+describe Account do
+  subject(:account) { described_class.new }
   let(:min_denomination) { account.config.min_denomination }
   let(:min_deposit) { account.config.min_deposit }
   let(:min_withdrawal) { account.config.min_withdrawal }
+  let(:ledger) { spy('Ledger') }
 
   describe '#initialize' do
     it 'should create an account with a balance of zero' do
@@ -52,6 +53,13 @@ describe 'Account' do
       invalid_withdrawal = max + min_denomination
       expect { account.withdraw(invalid_withdrawal) }
         .to raise_error "Maximum withdrawal is #{max}"
+    end
+  end
+
+  describe '#print_statement' do
+    it 'calls print on the account ledger' do
+      account.print_statement
+      expect(ledger).to have_received(:print_transactions)
     end
   end
 end
