@@ -1,7 +1,7 @@
 require 'account'
 
 describe Account do
-  subject(:account) { described_class.new }
+  subject(:account) { described_class.new(ledger: ledger) }
   let(:min_denomination) { account.config.min_denomination }
   let(:min_deposit) { account.config.min_deposit }
   let(:min_withdrawal) { account.config.min_withdrawal }
@@ -58,8 +58,8 @@ describe Account do
 
   describe '#statement' do
     it 'calls print on the account ledger' do
+      expect(ledger).to receive(:print_transactions)
       account.statement
-      expect(ledger).to have_received(:print_transactions)
     end
   end
 end

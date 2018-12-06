@@ -5,7 +5,7 @@ require 'observer'
 class Account
   include Observable
 
-  def initialize(config = AccountConfig.new, ledger = Ledger.new)
+  def initialize(config: AccountConfig.new, ledger: Ledger.new)
     @balance = 0
     @config = config
     @ledger = ledger
@@ -29,7 +29,7 @@ class Account
   end
 
   def statement
-    puts @ledger.print_transactions
+    @ledger.print_transactions
   end
 
   private
